@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 function getNavbar() {
-    fetch('navbar.html')
+    fetch('Navbar.html')
         .then(response => response.text())
         .then(html => {
             document.getElementById('navbar').innerHTML = html;
