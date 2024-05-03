@@ -40,6 +40,8 @@ previousPage.addEventListener('click', function (e) {
     getEmployees(page);
 })
 
+
+// GET ALL EMPLOYEES FUNCTION
 const getEmployees = async (page) => {
     nextPage.classList.add('disabled')
     let response_full = await fetch('https://task-master-backend-x8cz.onrender.com/task-master/api/employee?pageNumber=0&pageSize=999999999');
@@ -77,14 +79,63 @@ const getEmployees = async (page) => {
             </tr>
             `
 
+        document.querySelectorAll('.update-btn').forEach(button => {
+            button.addEventListener('click', openUpdateForm);
+        });
 
         // document.querySelectorAll('.delete-btn').forEach(button => {
         //     button.addEventListener('click', deleteLead);
         // });
 
-        // document.querySelectorAll('.update-btn').forEach(button => {
-        //     button.addEventListener('click', openUpdateForm);
-        // });
 
     });
+}
+
+// OPEN UPDATE FORM 
+const openUpdateForm = async (event) => {
+    console.log("openUpdateForm() called");
+    const employeeId = event.target.dataset.id;
+    console.log("ID: " + employeeId);
+
+    let response = await fetch(`https://task-master-backend-x8cz.onrender.com/task-master/api/employee/${employeeId}`);
+    let data = await response.json();
+    console.log(data.empId);
+    const { empId, empName, empEmail, empDesignation} = data;
+    modalFirstName.innerHTML = (`
+        
+        <!-- Employee ID -->
+        <fieldset disabled>
+        <div class="mb-3" >
+            <label for="employee_id" class="form-label">Employee ID</label>
+            <input type="text" class="form-control" id="employee_id" aria-describedby="emailHelp" value="${empId}">
+        </div>
+        </fieldset>
+        
+        <!-- Employee name -->
+        <div class="mb-3" >
+            <label for="emp_name" class="form-label">Edit Name</label>
+            <input type="text" class="form-control" id="emp_name" aria-describedby="emailHelp" value="${empName}">
+        </div>
+
+
+        <!-- email -->
+        <div class="mb-3">
+            <label for="email" class="form-label">Edit Email</label>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" value="${empEmail}">
+            
+        </div>
+
+        <!-- mobile no -->
+        <div class="mb-3">
+            <label for="designation" class="form-label">Edit Designation</label>
+            <input type="text" class="form-control" id="designation" aria-describedby="emailHelp" value="${empDesignation}">
+        </div>
+        `)
+
+
+    // updateLead.forEach(button => {
+    //     button.addEventListener('click', function () {
+    //         console.log("gu ha");
+    //     });
+    // })
 }
