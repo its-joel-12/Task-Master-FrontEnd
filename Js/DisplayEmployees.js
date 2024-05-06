@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 const contentIterate = document.getElementById('dataIteration');
 const nextPage = document.getElementById('nextPage');
 const previousPage = document.getElementById('previousPage');
+const submitUpdated = document.querySelector('.submitUpdated');
 
 
 
@@ -43,7 +44,12 @@ previousPage.addEventListener('click', function (e) {
 
 // GET ALL EMPLOYEES FUNCTION
 const getEmployees = async (page) => {
-    nextPage.classList.add('disabled')
+    nextPage.classList.add('disabled');
+
+    // Show loading spinner
+    document.getElementById('loadingSpinner1').style.display = 'block';
+    document.getElementById('loadingSpinner2').style.display = 'block';
+
     let response_full = await fetch('https://task-master-backend-x8cz.onrender.com/task-master/api/employee?pageNumber=0&pageSize=999999999');
     nextPage.classList.remove('disabled')
     let data_full = await response_full.json();
@@ -51,7 +57,7 @@ const getEmployees = async (page) => {
     totalPages = Math.ceil(data_full.length / size);
 
     if (page + 1 == totalPages) {
-        nextPage.classList.add('disabled')
+        nextPage.classList.add('disabled');
     }
 
     let response = await fetch(`https://task-master-backend-x8cz.onrender.com/task-master/api/employee?pageNumber=${page}&pageSize=${size}`);
@@ -60,6 +66,11 @@ const getEmployees = async (page) => {
     // console.log("HTTP_STATUS: " + response.status);
 
     // console.log(data);
+
+    // Hide loading spinner after fetching data
+    document.getElementById('loadingSpinner1').style.display = 'none';
+    document.getElementById('loadingSpinner2').style.display = 'none';
+
     data.forEach(element => {
 
         contentIterate.innerHTML +=
@@ -100,7 +111,7 @@ const openUpdateForm = async (event) => {
     let response = await fetch(`https://task-master-backend-x8cz.onrender.com/task-master/api/employee/${employeeId}`);
     let data = await response.json();
     console.log(data.empId);
-    const { empId, empName, empEmail, empDesignation} = data;
+    const { empId, empName, empEmail, empDesignation } = data;
     modalFirstName.innerHTML = (`
         
         <!-- Employee ID -->
@@ -117,12 +128,10 @@ const openUpdateForm = async (event) => {
             <input type="text" class="form-control" id="emp_name" aria-describedby="emailHelp" value="${empName}">
         </div>
 
-
         <!-- email -->
         <div class="mb-3">
             <label for="email" class="form-label">Edit Email</label>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" value="${empEmail}">
-            
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" value="${empEmail}">            
         </div>
 
         <!-- mobile no -->
@@ -131,11 +140,34 @@ const openUpdateForm = async (event) => {
             <input type="text" class="form-control" id="designation" aria-describedby="emailHelp" value="${empDesignation}">
         </div>
         `)
-
-
-    // updateLead.forEach(button => {
-    //     button.addEventListener('click', function () {
-    //         console.log("gu ha");
-    //     });
-    // })
 }
+
+
+const updateEmployee = async () => {
+    let employeeId = document.getElementById('employee_id').value;
+    let EmployeeName = document.getElementById('emp_name').value;
+    let employeeEmail = document.getElementById('email').value;
+    let employeeDesignation = document.getElementById('designation').value;
+
+
+    let response = await fetch(`https://task-master-backend-x8cz.onrender.com/task-master/api/employee/${employeeId}`, {
+        method: 'put',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            empName: EmployeeName,
+            empEmail: employeeEmail,
+            empDesignation: employeeDesignation
+        })
+    })
+
+    
+}
+
+submitUpdated.addEventListener('click', async function () {
+    await updateEmployee();
+    window.location.href = '../Html/DisplayEmployees.html';
+    console.log('clicked saved changes..')
+});
