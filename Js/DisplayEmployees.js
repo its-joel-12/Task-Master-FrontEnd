@@ -1,5 +1,5 @@
 var page = 0;
-var size = 5; //items per page
+var size = 10; //items per page
 var totalPages = 0;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -100,7 +100,7 @@ const getEmployees = async (page) => {
     });
 }
 
-// OPEN UPDATE FORM 
+// OPEN EMPLOYEE UPDATE FORM 
 const openUpdateForm = async (event) => {
     console.log("openUpdateForm() called");
     const employeeId = event.target.dataset.id;
@@ -140,7 +140,7 @@ const openUpdateForm = async (event) => {
         `)
 }
 
-
+// UPDATE EMPLOYEE FUNCTION
 const updateEmployee = async () => {
     let employeeId = document.getElementById('employee_id').value;
     let EmployeeName = document.getElementById('emp_name').value;
@@ -162,7 +162,7 @@ const updateEmployee = async () => {
     })    
 }
 
-
+// DELETE EMPLOYEE FUNCTION
 const deleteEmployee = async (event) => {
     const empId = event.target.dataset.id;
     console.log("ID: " + empId);

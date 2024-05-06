@@ -11,6 +11,8 @@
 
   <!-- JavaScript Files -->
   <script src="/js/app.js" defer></script>
+  <script src="/js/AddEmployee.js" defer></script>
+
 
   <!-- Css Files -->
   <link rel="stylesheet" href="/css/style.css">
@@ -36,7 +38,8 @@
           <h3 class="text-center">Manage Employee</h3>
         </div>
         <div class="row m-1 px-4" style="border: 1px solid purple;">
-          <button class="btn btn-success mb-1">Add Employee</button>
+          <button class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#exampleModal" id="addEmp">Add
+            Employee</button>
           <a class="btn btn-success mb-1" href="/html/DisplayEmployees.html">Get All Employee</a>
           <button class="btn btn-success mb-1">Get Employee By ID</button>
           <button class="btn btn-success mb-1">Get Employee By Task ID</button>
@@ -63,25 +66,30 @@
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Update Form</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-                <div id="modalFirstName"></div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary update submitUpdated">Save changes</button>
-                </div>
-
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Employee Form</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-    </div>
-</div>
+        <div class="modal-body">
 
+          <div id="modalFirstName">
+          </div>
+
+          <div class="modal-footer justify-content-center">
+            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+            <button id="submit" class="btn btn-primary">Add</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- bootstrap Script Link -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
