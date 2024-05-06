@@ -89,15 +89,13 @@ const getEmployees = async (page) => {
             </td>
             </tr>
             `
-
         document.querySelectorAll('.update-btn').forEach(button => {
             button.addEventListener('click', openUpdateForm);
         });
 
-        // document.querySelectorAll('.delete-btn').forEach(button => {
-        //     button.addEventListener('click', deleteLead);
-        // });
-
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', deleteEmployee);
+        });
 
     });
 }
@@ -161,9 +159,27 @@ const updateEmployee = async () => {
             empEmail: employeeEmail,
             empDesignation: employeeDesignation
         })
+    })    
+}
+
+
+const deleteEmployee = async (event) => {
+    const empId = event.target.dataset.id;
+    console.log("ID: " + empId);
+
+    let response = await fetch(`https://task-master-backend-x8cz.onrender.com/task-master/api/employee/${empId}`, {
+        method: "delete"
     })
 
-    
+    if (response.ok) {
+        console.log("Employee deleted successfully!");
+        event.target.closest('tr').remove();
+    }
+    else {
+        console.log("NOT DELETED");
+        console.log(response.status);
+    }
+
 }
 
 submitUpdated.addEventListener('click', async function () {
