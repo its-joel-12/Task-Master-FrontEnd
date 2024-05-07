@@ -18,7 +18,7 @@ function openAddForm() {
             <input type="email" class="form-control" id="email" aria-describedby="emailHelp" required/>            
         </div>
 
-        <!-- mobile no -->
+        <!-- Designation -->
         <div class="mb-3">
             <label for="designation" class="form-label">Enter Designation</label>
             <input type="text" class="form-control" id="designation" aria-describedby="emailHelp" required>
