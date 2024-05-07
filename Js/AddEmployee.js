@@ -2,7 +2,7 @@ const addEmp = document.getElementById("addEmp");
 const modalFirstName = document.getElementById("modalFirstName");
 const submit = document.getElementById("submit");
 
-// OPEN ADD NEW FORM
+// OPEN ADD NEW FORM FUnction
 function openAddForm() {
   modalFirstName.innerHTML = `
         
@@ -27,12 +27,13 @@ function openAddForm() {
         `;
 }
 
+// Save Employee function
 const saveEmployee = async () => {
   let employeeName = document.getElementById("emp_name").value;
   let employeeEmail = document.getElementById("email").value;
   let employeeDesignation = document.getElementById("designation").value;
 
-  console.log("saveEmployee called!");
+  // console.log("saveEmployee called!");
 
   let response = await fetch(
     "https://task-master-backend-x8cz.onrender.com/task-master/api/employee",

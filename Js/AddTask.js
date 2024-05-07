@@ -44,6 +44,7 @@ function openAddForm() {
         `;
 }
 
+// Date convertion function
 function parseDate(dateString) {
   // Split the date string into day, month, and year components
   const [year, month, day] = dateString.split("-");
@@ -54,6 +55,7 @@ function parseDate(dateString) {
   return isoDateString;
 }
 
+// save task function
 const saveTask = async () => {
   let taskTitle = document.getElementById("task_title").value;
   let taskDesc = document.getElementById("task_desc").value;
