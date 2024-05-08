@@ -1,6 +1,54 @@
 const addTask = document.getElementById("addTask");
+const error_modal = document.getElementById("error_modal");
+const liveToast = document.getElementById("liveToast");
 const modalFirstName2 = document.getElementById("modalFirstName2");
 const submitTask = document.getElementById("submitTask");
+
+var httpCode;
+var httpStatus;
+var message;
+var description;
+var tasktitleToast;
+
+var isTaskSaved = false;
+
+var errorToast = new bootstrap.Toast(liveToast);
+var modal = new bootstrap.Modal(document.getElementById('exampleModal2'));
+
+// Function to show the alert toast
+function showAlertToast() {
+  // Update the toast message
+  liveToast.innerHTML = `
+  <div class="toast-header text-bg-danger">
+          <img style="width: 30px; height: auto;" src="/Images/TM_Logo_BlueT.png" class="rounded me-2" alt="">
+          <strong class="me-auto">ALERT! ${httpCode} ${httpStatus}</strong>
+          <!-- <small>11 mins ago</small> -->
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          <p>${message}</p>
+        </div>
+  `;
+  errorToast.show();
+}
+
+
+// Function to show the Success toast
+function showSuccessToast() {
+  // Update the toast message
+  liveToast.innerHTML = `
+  <div class="toast-header text-bg-success">
+          <img style="width: 30px; height: auto;" src="/Images/TM_Logo_png.png" class="rounded me-2" alt="">
+          <strong class="me-auto">Task Created</strong>
+          
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          <p><strong class="me-auto">${tasktitleToast} </strong> Task Created :)</p>
+        </div>
+  `;
+  errorToast.show();
+}
 
 // OPEN ADD NEW FORM
 function openAddForm() {
@@ -81,12 +129,36 @@ const saveTask = async () => {
       }),
     }
   );
+
+  let data = await response.json();
+
+  if (response.status == 201) {
+    isTaskSaved = true;
+    tasktitleToast = data.taskTitle;
+  } else {
+    isTaskSaved = false;
+
+
+    httpCode = data.httpCode;
+    httpStatus = data.httpStatus;
+    message = data.message;
+    // console.log("response:");
+    // console.log("response-status:" + response.status);
+    // console.log("httpCode: " + data.httpCode);
+    // console.log("httpStatus: " + data.httpStatus);
+    // console.log("message: " + data.message);
+    // console.log("description: " + data.description);
+  }
 };
 
 addTask.addEventListener("click", openAddForm);
 
 submitTask.addEventListener("click", async function () {
   await saveTask();
-  // Redirect to the display page after saving the employee
-  window.location.href = '../Html/DisplayTasks.html';
+  if (!isTaskSaved) {
+    showAlertToast();
+  } else {
+    showSuccessToast();    
+    modal.hide();
+  }
 });

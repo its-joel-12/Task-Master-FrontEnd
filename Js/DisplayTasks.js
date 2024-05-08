@@ -1,5 +1,5 @@
 var page = 0;
-var size = 10; //items per page
+var size = 5; //items per page
 var totalPages = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -12,6 +12,28 @@ const previousPage = document.getElementById("previousPage");
 const submitUpdated = document.querySelector(".submitUpdated");
 const submitDeleted = document.querySelector(".submitDeleted");
 
+// yyyy-mm-dd to dd-mm-yyyy
+function parseDate(dateString) {
+  // Split the date string into day, month, and year components
+  const [year, month, day] = dateString.split("-");
+
+  // Construct a new string in 'yyyy-mm-dd' format
+  const isoDateString = `${day}-${month}-${year}`;
+
+  return isoDateString;
+}
+
+// dd-mm-yyyy to yyyy-mm-dd 
+function parseDateReturnsYearFirst(dateString) {
+  // Split the date string into day, month, and year components
+  const [day, month, year] = dateString.split("-");
+
+  // Construct a new string in 'yyyy-mm-dd' format
+  const isoDateString = `${year}-${month}-${day}`;
+
+  return isoDateString;
+}
+
 nextPage.addEventListener("click", function (e) {
   page++;
   if (page > 0) {
@@ -21,7 +43,7 @@ nextPage.addEventListener("click", function (e) {
     nextPage.classList.add("disabled");
   }
   contentIterate.innerHTML = "";
-  getEmployees(page);
+  getTasks(page);
 });
 
 previousPage.addEventListener("click", function (e) {
@@ -35,7 +57,7 @@ previousPage.addEventListener("click", function (e) {
     page--;
   }
   contentIterate.innerHTML = "";
-  getEmployees(page);
+  getTasks(page);
 });
 
 // GET ALL TASKS FUNCTION
@@ -155,8 +177,8 @@ const openUpdateForm = async (event) => {
 
         <!-- Task Due Date -->
         <div class="mb-3" >
-            <label for="task_due_date" class="form-label">Edit Task Due Date (${dueDate})</label>
-            <input type="date" class="form-control" id="task_due_date" aria-describedby="emailHelp" >
+            <label for="task_due_date" class="form-label">Edit Task Due Date</label>
+            <input type="date" class="form-control" id="task_due_date" aria-describedby="emailHelp" value="${parseDateReturnsYearFirst(dueDate)}">
         </div>
 
         <!-- Employee ID-->
@@ -191,16 +213,6 @@ const openDeleteWarning = async (event) => {
    `;
 };
 
-function parseDate(dateString) {
-  // Split the date string into day, month, and year components
-  const [year, month, day] = dateString.split("-");
-
-  // Construct a new string in 'yyyy-mm-dd' format
-  const isoDateString = `${day}-${month}-${year}`;
-
-  return isoDateString;
-}
-
 // UPDATE TASK FUNCTION
 const updateTask = async () => {
   let taskId = document.getElementById("task_id").value;
@@ -209,7 +221,7 @@ const updateTask = async () => {
   let taskStatus = document.getElementById("task_status").value;
   let taskDueDate = document.getElementById("task_due_date").value;
 
-  // console.log('Date: ' + parseDate(taskDueDate));
+  console.log("Date: " + parseDate(taskDueDate));
 
   let response = await fetch(
     `https://task-master-backend-x8cz.onrender.com/task-master/api/task/${taskId}`,
@@ -231,7 +243,6 @@ const updateTask = async () => {
 
 // DELETE TASK FUNCTION
 const deleteTask = async () => {
-  // console.log('object');
   const taskId = document.getElementById("task_id").value;
   console.log("ID: " + taskId);
 
