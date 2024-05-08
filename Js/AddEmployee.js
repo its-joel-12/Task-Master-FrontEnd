@@ -1,6 +1,53 @@
 const addEmp = document.getElementById("addEmp");
+// const liveToast = document.getElementById("liveToast");
 const modalFirstName = document.getElementById("modalFirstName");
 const submit = document.getElementById("submit");
+
+var httpCode;
+var httpStatus;
+var message;
+var description;
+var empNameToast;
+
+var isEmployeeSaved = false;
+
+var errorToast = new bootstrap.Toast(liveToast);
+var modal1 = new bootstrap.Modal(document.getElementById('exampleModal'));
+
+// Function to show the alert toast
+function showEmployeeAlertToast() {
+  // Update the toast message
+  liveToast.innerHTML = `
+  <div class="toast-header text-bg-danger">
+          <img style="width: 30px; height: auto;" src="/Images/TM_Logo_BlueT.png" class="rounded me-2" alt="">
+          <strong class="me-auto">ALERT! ${httpCode} ${httpStatus}</strong>
+          <!-- <small>11 mins ago</small> -->
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          <p>${message}</p>
+        </div>
+  `;
+  errorToast.show();
+}
+
+
+// Function to show the Success toast
+function showEmployeeSuccessToast() {
+  // Update the toast message
+  liveToast.innerHTML = `
+  <div class="toast-header text-bg-success">
+          <img style="width: 30px; height: auto;" src="/Images/TM_Logo_png.png" class="rounded me-2" alt="">
+          <strong class="me-auto">Employee Added</strong>
+          
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          <p>Added <strong class="me-auto">${empNameToast} </strong>Succesfully👍</p>
+        </div>
+  `;
+  errorToast.show();
+}
 
 // OPEN ADD NEW FORM FUnction
 function openAddForm() {
@@ -50,14 +97,33 @@ const saveEmployee = async () => {
       }),
     }
   );
+
+  let data = await response.json();
+
+  if (response.status == 201) {
+    isEmployeeSaved = true;
+    empNameToast = data.empName;
+  } else {
+    isEmployeeSaved = false;
+
+
+    httpCode = data.httpCode;
+    httpStatus = data.httpStatus;
+    message = data.message;
+  }
 };
 
 addEmp.addEventListener("click", openAddForm);
 
 submit.addEventListener("click", async function () {
     await saveEmployee();
-    // Redirect to the display page after saving the employee
-    window.location.href = '../Html/DisplayEmployees.html';
+    
+    if (!isEmployeeSaved) {
+      showEmployeeAlertToast();
+    } else {
+      showEmployeeSuccessToast();    
+      modal1.hide();
+    }
   });
   
 

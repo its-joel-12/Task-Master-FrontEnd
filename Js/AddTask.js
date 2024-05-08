@@ -1,5 +1,4 @@
 const addTask = document.getElementById("addTask");
-const error_modal = document.getElementById("error_modal");
 const liveToast = document.getElementById("liveToast");
 const modalFirstName2 = document.getElementById("modalFirstName2");
 const submitTask = document.getElementById("submitTask");
@@ -44,7 +43,7 @@ function showSuccessToast() {
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
         <div class="toast-body">
-          <p><strong class="me-auto">${tasktitleToast} </strong> Task Created :)</p>
+          <p><strong class="me-auto">${tasktitleToast} </strong> Task Created👍</p>
         </div>
   `;
   errorToast.show();
