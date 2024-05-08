@@ -153,9 +153,12 @@ const openDeleteWarning = async (event) => {
     <div class="alert alert-danger" role="alert">
     <input type="text" class="form-control visually-hidden" id="employee_id" aria-describedby="emailHelp" value="${empId}">
         <h5>Are you sure you want to delete this employee?</h5> 
+        <hr>
         <h7>ID: ${empId}</h7> <br>
         <h7>Name: <strong>${empName}</strong></h7> <br>
         <h7>Designation: ${empDesignation}</h7>
+        <hr>
+        <h5>This will also delete the tasks assigned to this employee!!</h5> 
     </div>
  `;
 };
