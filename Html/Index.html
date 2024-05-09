@@ -14,6 +14,7 @@
   <script src="/js/AddEmployee.js" defer></script>
   <script src="/js/AddTask.js" defer></script>
   <script src="/js/EmployeeById.js" defer></script>
+  <script src="/js/TaskById.js" defer></script>
 
   <!-- Css Files -->
   <link rel="stylesheet" href="/css/style.css" />
@@ -33,27 +34,33 @@
       <h1 class="text-center">Task Master - Admin Portal</h1>
     </div>
     <div class="row my-1 mx-1" style="border: 0px solid blue">
-      <div class="col m-1" style="border: 0px solid green; padding: 5px; border-radius: 10px; background-color: #d4e6f1; box-shadow: -10px 10px 11px -2px rgba(0, 0, 0, 0.34);">
+      <div class="col m-1"
+        style="border: 0px solid green; padding: 5px; border-radius: 10px; background-color: #d4e6f1; box-shadow: -10px 10px 11px -2px rgba(0, 0, 0, 0.34);">
         <div class="row m-1" style="border: 0px solid purple">
           <h3 class="text-center">Manage Employee</h3>
         </div>
         <div class="row m-1 px-5" style="border: 0px solid purple">
-          <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal" id="addEmp">Add Employee</button>
+          <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal" id="addEmp">Add
+            Employee</button>
           <a class="btn btn-success mb-3" href="/html/DisplayEmployees.html">Get All Employee</a>
-          <button class="btn btn-success mb-3 " data-bs-toggle="modal" data-bs-target="#emp-by-id" id="empById">Get Employee By ID</button>
+          <button class="btn btn-success mb-3 " data-bs-toggle="modal" data-bs-target="#emp-by-id" id="empById">Get
+            Employee By ID</button>
           <button class="btn btn-success mb-3 disabled">Get Employee By Task ID</button>
           <!-- <button class="btn btn-success mb-2">Update Employee By ID</button> -->
           <!-- <button class="btn btn-success mb-2">Delete Employee By ID</button> -->
         </div>
       </div>
-      <div class="col m-1" style="border: 0px solid green; padding: 5px; border-radius: 10px; background-color: #d4e6f1; box-shadow: 10px 10px 11px -2px rgba(0, 0, 0, 0.34);">
+      <div class="col m-1"
+        style="border: 0px solid green; padding: 5px; border-radius: 10px; background-color: #d4e6f1; box-shadow: 10px 10px 11px -2px rgba(0, 0, 0, 0.34);">
         <div class="row m-1" style="border: 0px solid purple">
           <h3 class="text-center">Manage Task</h3>
         </div>
         <div class="row m-1 px-5" style="border: 0px solid purple">
-          <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal2" id="addTask">Add Task</button>
+          <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal2" id="addTask">Add
+            Task</button>
           <a class="btn btn-primary mb-3" href="/Html/DisplayTasks.html">Get All Task</a>
-          <button class="btn btn-primary mb-3 " data-bs-toggle="modal" data-bs-target="#by-id" id="taskById">Get Task By ID</button>
+          <button class="btn btn-primary mb-3 " data-bs-toggle="modal" data-bs-target="#task-by-id" id="taskById">Get
+            Task By ID</button>
           <button class="btn btn-primary mb-3 disabled" type="submit">Get Task(s) By Employee ID</button>
           <!-- <button class="btn btn-primary mb-2" type="submit">Update Task By ID</button> -->
           <!-- <button class="btn btn-primary mb-2" type="submit">Delete Task By ID</button> -->
@@ -107,15 +114,15 @@
   <!-- Modal - Search Employee By Id -->
   <div class="modal fade" id="emp-by-id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content" >
+      <div class="modal-content">
         <div class="modal-header justify-content-center text-center">
-          <h1 class="modal-title fs-5" id="modal_title" >Search Employee By ID</h1>
+          <h1 class="modal-title fs-5" id="modal_title">Search Employee By ID</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="mb-3" id="search_label_input">
             <label for="employeeId" class="form-label">Employee ID</label>
-            <input type="number" class="form-control" id="employeeId" placeholder="Enter Employee ID" required/>
+            <input type="number" class="form-control" id="employeeId" placeholder="Enter Employee ID" required />
           </div>
           <div class="">
             <div id="search_emp_by_id_content"></div>
@@ -124,11 +131,37 @@
             <button id="searchEmp" class="btn btn-primary">Search</button>
           </div>
           <hr />
-          
+
         </div>
       </div>
     </div>
   </div>
+
+<!-- Modal - Search Employee By Id -->
+<div class="modal fade" id="task-by-id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center text-center">
+        <h1 class="modal-title fs-5" id="modal_title_task">Search Task By ID</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3" id="search_label_input_task">
+          <label for="taskId" class="form-label">Task ID</label>
+          <input type="number" class="form-control" id="taskId" placeholder="Enter Task ID" required />
+        </div>
+        <div class="">
+          <div id="search_task_by_id_content"></div>
+        </div>
+        <div class="text-center">
+          <button id="searchTask" class="btn btn-primary">Search</button>
+        </div>
+        <hr />
+
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- Toast -->
   <div class="toast-container position-absolute top-0 end-0 p-3" id="">
