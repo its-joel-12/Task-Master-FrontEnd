@@ -16,20 +16,23 @@ var description;
 function openSearchEmployeeByIdContent() {
     search_emp_by_id_content.innerHTML = `
     
-    <div id="employeeDetailsContainer">
-        <h5 class="text-center">Here are the Employee Details:-<h5>
-        <hr>
-        <p><strong>Employee ID:</strong> ${employeeId}</p>
-        <p><strong>Name:</strong> ${employeeName}</p>
-        <p><strong>Email:</strong> ${employeeEmail}</p>
-        <p><strong>Designation:</strong> ${employeeDesignation}</p>
-        <hr>
-        <div class="text-end px-4">
-            <button id="" class="btn btn-primary">Search More</button>
-        </div>
-    </div>
-    
+    <p><strong>Employee ID:</strong> ${employeeId}</p>
+    <p><strong>Name:</strong> ${employeeName}</p>
+    <p><strong>Email:</strong> ${employeeEmail}</p>
+    <p><strong>Designation:</strong> ${employeeDesignation}</p>
+    <hr>
+    <div class="text-end px-4">
+    <button id="search_more" class="btn btn-primary">Search More</button>
+    </div>    
     `;
+
+    document.getElementById("search_more").addEventListener("click", function () {
+        console.log('hello');
+        document.getElementById("modal_title").innerText = "Search Employee By ID";
+        document.getElementById("searchEmp").classList.remove("visually-hidden");
+        document.getElementById("search_label_input").classList.remove("visually-hidden");
+        search_emp_by_id_content.innerHTML = "";
+    });
 }
 
 function showEmployeeAlertToast() {
@@ -68,8 +71,10 @@ const getEmployeeById = async () => {
         employeeDesignation = data.empDesignation;
 
         openSearchEmployeeByIdContent();
+        document.getElementById("searchEmp").classList.add("visually-hidden");
+        document.getElementById("search_label_input").classList.add("visually-hidden");
+        document.getElementById("modal_title").innerText = "Here are the Employee Details:-";
 
-        document.getElementById("exampleModalLabel").classList.add("visually-hidden");
 
 
     }
@@ -88,3 +93,5 @@ searchEmp.addEventListener("click", async function () {
     search_emp_by_id_content.innerHTML = "";
     await getEmployeeById();
 });
+
+
