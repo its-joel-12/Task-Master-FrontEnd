@@ -1,5 +1,5 @@
 var page = 0;
-var size = 10; //items per page
+var size = 5; //items per page
 var totalPages = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
