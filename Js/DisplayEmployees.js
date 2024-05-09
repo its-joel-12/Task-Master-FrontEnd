@@ -1,6 +1,12 @@
 var page = 0;
 var size = 10; //items per page
 var totalPages = 0;
+var empNameToast;
+
+const liveToast = document.getElementById("liveToast");
+var errorToast = new bootstrap.Toast(liveToast);
+var modal = new bootstrap.Modal(document.getElementById('exampleModal1'));
+var modal2 = new bootstrap.Modal(document.getElementById('exampleModal2'));
 
 document.addEventListener("DOMContentLoaded", function () {
   getEmployees(page);
@@ -38,17 +44,52 @@ previousPage.addEventListener("click", function (e) {
   getEmployees(page);
 });
 
+// Function to show the Success toast
+function showEmployeeUpdatedToast() {
+  // Update the toast message
+  liveToast.innerHTML = `
+  <div class="toast-header text-bg-success">
+          <img style="width: 30px; height: auto;" src="/Images/TM_Logo_png.png" class="rounded me-2" alt="">
+          <strong class="me-auto">Employee Updated</strong>
+          
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          <p>Updated <strong class="me-auto">${empNameToast} </strong>Succesfully👍</p>
+        </div>
+  `;
+  errorToast.show();
+}
+
+// Function to show the Success toast
+function showEmployeeDeletedToast() {
+  // Update the toast message
+  liveToast.innerHTML = `
+  <div class="toast-header text-bg-danger">
+          <img style="width: 30px; height: auto;" src="/Images/TM_Logo_png.png" class="rounded me-2" alt="">
+          <strong class="me-auto">Employee Deleted</strong>
+          
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          <p>Deleted EmpID: <strong class="me-auto">${empNameToast} </strong>Succesfully😢</p>
+        </div>
+  `;
+  errorToast.show();
+}
+
+
+
 // GET ALL EMPLOYEES FUNCTION
 const getEmployees = async (page) => {
+  // console.log('object2');
   nextPage.classList.add("disabled");
 
   // Show loading spinner
   document.getElementById("loadingSpinner1").style.display = "block";
   document.getElementById("loadingSpinner2").style.display = "block";
 
-  let response_full = await fetch(
-    "https://task-master-backend-x8cz.onrender.com/task-master/api/employee?pageNumber=0&pageSize=999999999"
-  );
+  let response_full = await fetch("https://task-master-backend-x8cz.onrender.com/task-master/api/employee?pageNumber=0&pageSize=999999999");
   nextPage.classList.remove("disabled");
   let data_full = await response_full.json();
 
@@ -58,16 +99,9 @@ const getEmployees = async (page) => {
     nextPage.classList.add("disabled");
   }
 
-  let response = await fetch(
-    `https://task-master-backend-x8cz.onrender.com/task-master/api/employee?pageNumber=${page}&pageSize=${size}`
-  );
+  let response = await fetch(`https://task-master-backend-x8cz.onrender.com/task-master/api/employee?pageNumber=${page}&pageSize=${size}`);
   let data = await response.json();
-  // console.log(response);
-  // console.log("HTTP_STATUS: " + response.status);
-
-  // console.log(data);
-
-  // Hide loading spinner after fetching data
+  
   document.getElementById("loadingSpinner1").style.display = "none";
   document.getElementById("loadingSpinner2").style.display = "none";
 
@@ -183,6 +217,11 @@ const updateEmployee = async () => {
       }),
     }
   );
+
+  if(response.status == 200){
+    let data = await response.json();
+    empNameToast = data.empName;
+  }
 };
 
 // DELETE EMPLOYEE FUNCTION
@@ -196,16 +235,28 @@ const deleteEmployee = async () => {
       method: "delete",
     }
   );
+
+
+  if(response.status == 204){
+    empNameToast = empId;
+  }
 };
 
 submitUpdated.addEventListener("click", async function () {
   await updateEmployee();
-  window.location.href = "../Html/DisplayEmployees.html";
-  console.log("clicked saved changes..");
+  modal.hide();
+  contentIterate.innerHTML = "";
+  await getEmployees(page);
+  showEmployeeUpdatedToast();
+  // window.location.href = "../Html/DisplayEmployees.html";
 });
 
 submitDeleted.addEventListener("click", async function () {
   await deleteEmployee();
-  window.location.href = "../Html/DisplayEmployees.html";
+  modal2.hide();
+  contentIterate.innerHTML = "";
+  await getEmployees(page);
+  showEmployeeDeletedToast();
+  // window.location.href = "../Html/DisplayEmployees.html";
 //   console.log("clicked saved changes..");
 });
