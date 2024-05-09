@@ -103,9 +103,7 @@ const openUpdateForm = async (event) => {
   const employeeId = event.target.dataset.id;
   console.log("ID: " + employeeId);
 
-  let response = await fetch(
-    `https://task-master-backend-x8cz.onrender.com/task-master/api/employee/${employeeId}`
-  );
+  let response = await fetch(`https://task-master-backend-x8cz.onrender.com/task-master/api/employee/${employeeId}`);
   let data = await response.json();
   console.log(data.empId);
   const { empId, empName, empEmail, empDesignation } = data;
