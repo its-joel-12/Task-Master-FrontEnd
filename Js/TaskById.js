@@ -31,7 +31,6 @@ function openSearchTaskByIdContent() {
     `;
 
     document.getElementById("search_more").addEventListener("click", function () {
-        console.log('hello');
         document.getElementById("modal_title_task").innerText = "Search Task By ID";
         document.getElementById("searchTask").classList.remove("visually-hidden");
         document.getElementById("search_label_input_task").classList.remove("visually-hidden");

@@ -1,5 +1,5 @@
-const searchEmp = document.getElementById("searchEmp");
-const search_emp_by_id_content = document.getElementById("search_emp_by_id_content");
+const searchEmp_by_task_id = document.getElementById("searchEmp_by_task_id");
+const search_emp_by_task_id_content = document.getElementById("search_emp_by_task_id_content");
 
 var employeeId;
 var employeeName;
@@ -14,7 +14,7 @@ var description;
 
 // OPEN SEARCH_EMP_BY_ID MODAL
 function openSearchEmployeeByIdContent() {
-    search_emp_by_id_content.innerHTML = `
+    search_emp_by_task_id_content.innerHTML = `
     
     <p><strong>Employee ID:</strong> ${employeeId}</p>
     <p><strong>Name:</strong> ${employeeName}</p>
@@ -27,10 +27,10 @@ function openSearchEmployeeByIdContent() {
     `;
 
     document.getElementById("search_more").addEventListener("click", function () {
-        document.getElementById("modal_title").innerText = "Search Employee By ID";
-        document.getElementById("searchEmp").classList.remove("visually-hidden");
-        document.getElementById("search_label_input").classList.remove("visually-hidden");
-        search_emp_by_id_content.innerHTML = "";
+        document.getElementById("modal_title_emp_task_id").innerText = "Search Employee By Task ID";
+        document.getElementById("searchEmp_by_task_id").classList.remove("visually-hidden");
+        document.getElementById("search_label_input_emp_task_id").classList.remove("visually-hidden");
+        search_emp_by_task_id_content.innerHTML = "";
     });
 }
 
@@ -50,13 +50,13 @@ function showEmployeeAlertToast() {
     errorToast.show();
 }
 
-const getEmployeeById = async () => {
-    const empId = document.getElementById("employeeId");
+const getEmployeeByTaskId = async () => {
+    const emp_by_task_id = document.getElementById("emp-by-task-id-input");
 
-    console.log('getEmployeeById called');
-    console.log('employeeId: ' + empId.value);
+    console.log('getEmployeeByTaskId called');
+    console.log('emp-by-task-id-input: ' + emp_by_task_id.value);
 
-    let response = await fetch(`https://task-master-backend-x8cz.onrender.com/task-master/api/employee/${empId.value}`);
+    let response = await fetch(`https://task-master-backend-x8cz.onrender.com/task-master/api/employee-task-id/${emp_by_task_id.value}`);
 
     const data = await response.json();
 
@@ -70,9 +70,9 @@ const getEmployeeById = async () => {
         employeeDesignation = data.empDesignation;
 
         openSearchEmployeeByIdContent();
-        document.getElementById("searchEmp").classList.add("visually-hidden");
-        document.getElementById("search_label_input").classList.add("visually-hidden");
-        document.getElementById("modal_title").innerText = "Here are the Employee Details:-";
+        document.getElementById("searchEmp_by_task_id").classList.add("visually-hidden");
+        document.getElementById("search_label_input_emp_task_id").classList.add("visually-hidden");
+        document.getElementById("modal_title_emp_task_id").innerText = "Here are the Employee Details:-";
 
 
 
@@ -88,9 +88,10 @@ const getEmployeeById = async () => {
 
 }
 
-searchEmp.addEventListener("click", async function () {
-    search_emp_by_id_content.innerHTML = "";
-    await getEmployeeById();
+searchEmp_by_task_id.addEventListener("click", async function () {
+    // console.log('object');
+    search_emp_by_task_id_content.innerHTML = "";
+    await getEmployeeByTaskId();
 });
 
 
