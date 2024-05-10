@@ -13,7 +13,6 @@ var httpStatus;
 var message;
 var description;
 
-
 // OPEN SEARCH_EMP_BY_ID MODAL
 function openSearchTaskByIdContent() {
     search_task_by_id_content.innerHTML = `
@@ -39,7 +38,6 @@ function openSearchTaskByIdContent() {
 }
 
 function showTaskAlertToast() {
-    // Update the toast message
     liveToast.innerHTML = `
     <div class="toast-header text-bg-danger">
             <img style="width: 30px; height: auto;" src="/Images/TM_Logo_BlueT.png" class="rounded me-2" alt="">
@@ -57,14 +55,9 @@ function showTaskAlertToast() {
 const getTaskById = async () => {
     const task_Id = document.getElementById("taskId");
 
-    console.log('taskId: ' + task_Id.value);
-
     let response = await fetch(`https://task-master-backend-x8cz.onrender.com/task-master/api/task/${task_Id.value}`);
 
     const data = await response.json();
-
-    console.log(data);
-    console.log(response.status);
 
     if (response.status == 200) {
         taskId = data.taskId;
@@ -78,24 +71,16 @@ const getTaskById = async () => {
         document.getElementById("searchTask").classList.add("visually-hidden");
         document.getElementById("search_label_input_task").classList.add("visually-hidden");
         document.getElementById("modal_title_task").innerText = "Here are the Task Details:-";
-
-
-
-    }
+        }
     else {
         httpCode = data.httpCode;
         httpStatus = data.httpStatus;
         message = data.message;
         showTaskAlertToast();
     }
-
-
-
-}
+};
 
 searchTask.addEventListener("click", async function () {
     search_task_by_id_content.innerHTML = "";
     await getTaskById();
 });
-
-

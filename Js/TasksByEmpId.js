@@ -4,23 +4,11 @@ const search_task_by_emp_id_content = document.getElementById("search_task_by_em
 const getTaskByEmpId = async () => {
     const emp_Id = document.getElementById("input");
 
-    console.log('emp_Id: ' + emp_Id.value);
-
     let response = await fetch(`https://task-master-backend-x8cz.onrender.com/task-master/api/task-emp-id/${emp_Id.value}`);
 
     const data = await response.json();
 
-    console.log(data);
-    console.log(response.status);
-
     if (response.status == 200) {
-        // taskId = data.taskId;
-        // taskTitle = data.taskTitle;
-        // taskDescription = data.taskDescription;
-        // taskStatus = data.taskStatus;
-        // dueDate = data.dueDate;
-        // employeeId = data.employeeId;
-
         search_task_by_emp_id_content.innerHTML = `
 
         <!-- Table -->
@@ -57,7 +45,6 @@ const getTaskByEmpId = async () => {
                     `;
         });
 
-
         document.getElementById("searchTask_by_emp_id").classList.add("visually-hidden");
         document.getElementById("search_label_input_task_by_emp_id").classList.add("visually-hidden");
         document.getElementById("modal_title_task_by_emp_id").innerText = `Here are the Tasks for EmpID: ${emp_Id.value}`;
@@ -75,7 +62,7 @@ const getTaskByEmpId = async () => {
         message = data.message;
         showTaskAlertToast();
     }
-}
+};
 
 searchTask_by_emp_id.addEventListener("click", async function () {
     search_task_by_emp_id_content.innerHTML = "";

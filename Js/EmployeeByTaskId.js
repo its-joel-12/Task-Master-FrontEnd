@@ -11,7 +11,6 @@ var httpStatus;
 var message;
 var description;
 
-
 // OPEN SEARCH_EMP_BY_ID MODAL
 function openSearchEmployeeByIdContent() {
     search_emp_by_task_id_content.innerHTML = `
@@ -35,7 +34,6 @@ function openSearchEmployeeByIdContent() {
 }
 
 function showEmployeeAlertToast() {
-    // Update the toast message
     liveToast.innerHTML = `
     <div class="toast-header text-bg-danger">
             <img style="width: 30px; height: auto;" src="/Images/TM_Logo_BlueT.png" class="rounded me-2" alt="">
@@ -53,15 +51,9 @@ function showEmployeeAlertToast() {
 const getEmployeeByTaskId = async () => {
     const emp_by_task_id = document.getElementById("emp-by-task-id-input");
 
-    console.log('getEmployeeByTaskId called');
-    console.log('emp-by-task-id-input: ' + emp_by_task_id.value);
-
     let response = await fetch(`https://task-master-backend-x8cz.onrender.com/task-master/api/employee-task-id/${emp_by_task_id.value}`);
 
     const data = await response.json();
-
-    console.log(data);
-    console.log(response.status);
 
     if (response.status == 200) {
         employeeId = data.empId;
@@ -73,9 +65,6 @@ const getEmployeeByTaskId = async () => {
         document.getElementById("searchEmp_by_task_id").classList.add("visually-hidden");
         document.getElementById("search_label_input_emp_task_id").classList.add("visually-hidden");
         document.getElementById("modal_title_emp_task_id").innerText = "Here are the Employee Details:-";
-
-
-
     }
     else {
         httpCode = data.httpCode;
@@ -83,13 +72,9 @@ const getEmployeeByTaskId = async () => {
         message = data.message;
         showEmployeeAlertToast();
     }
-
-
-
-}
+};
 
 searchEmp_by_task_id.addEventListener("click", async function () {
-    // console.log('object');
     search_emp_by_task_id_content.innerHTML = "";
     await getEmployeeByTaskId();
 });

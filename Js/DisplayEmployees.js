@@ -46,7 +46,6 @@ previousPage.addEventListener("click", function (e) {
 
 // Function to show the Success toast
 function showEmployeeUpdatedToast() {
-  // Update the toast message
   liveToast.innerHTML = `
   <div class="toast-header text-bg-success">
           <img style="width: 30px; height: auto;" src="/Images/TM_Logo_png.png" class="rounded me-2" alt="">
@@ -63,7 +62,6 @@ function showEmployeeUpdatedToast() {
 
 // Function to show the Success toast
 function showEmployeeDeletedToast() {
-  // Update the toast message
   liveToast.innerHTML = `
   <div class="toast-header text-bg-danger">
           <img style="width: 30px; height: auto;" src="/Images/TM_Logo_png.png" class="rounded me-2" alt="">
@@ -78,11 +76,8 @@ function showEmployeeDeletedToast() {
   errorToast.show();
 }
 
-
-
 // GET ALL EMPLOYEES FUNCTION
 const getEmployees = async (page) => {
-  // console.log('object2');
   nextPage.classList.add("disabled");
 
   // Show loading spinner
@@ -133,9 +128,7 @@ const getEmployees = async (page) => {
 
 // OPEN EMPLOYEE UPDATE FORM
 const openUpdateForm = async (event) => {
-  console.log("openUpdateForm() called");
   const employeeId = event.target.dataset.id;
-  console.log("ID: " + employeeId);
 
   let response = await fetch(`https://task-master-backend-x8cz.onrender.com/task-master/api/employee/${employeeId}`);
   let data = await response.json();
@@ -179,7 +172,6 @@ const openDeleteWarning = async (event) => {
     `https://task-master-backend-x8cz.onrender.com/task-master/api/employee/${employeeId}`
   );
   let data = await response.json();
-  console.log(data.empId);
   const { empId, empName, empDesignation} = data;
   modalFirstName2.innerHTML = `
     <div class="alert alert-danger" role="alert">
@@ -227,7 +219,6 @@ const updateEmployee = async () => {
 // DELETE EMPLOYEE FUNCTION
 const deleteEmployee = async () => {
   const empId = document.getElementById("employee_id").value;
-  console.log("ID: " + empId);
 
   let response = await fetch(
     `https://task-master-backend-x8cz.onrender.com/task-master/api/employee/${empId}`,
@@ -248,7 +239,6 @@ submitUpdated.addEventListener("click", async function () {
   contentIterate.innerHTML = "";
   await getEmployees(page);
   showEmployeeUpdatedToast();
-  // window.location.href = "../Html/DisplayEmployees.html";
 });
 
 submitDeleted.addEventListener("click", async function () {
@@ -257,6 +247,4 @@ submitDeleted.addEventListener("click", async function () {
   contentIterate.innerHTML = "";
   await getEmployees(page);
   showEmployeeDeletedToast();
-  // window.location.href = "../Html/DisplayEmployees.html";
-//   console.log("clicked saved changes..");
 });

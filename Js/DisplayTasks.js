@@ -46,7 +46,6 @@ previousPage.addEventListener("click", function (e) {
 
 // Function to show the Success toast
 function showTaskUpdatedToast() {
-  // Update the toast message
   liveToast.innerHTML = `
   <div class="toast-header text-bg-success">
           <img style="width: 30px; height: auto;" src="/Images/TM_Logo_png.png" class="rounded me-2" alt="">
@@ -63,7 +62,6 @@ function showTaskUpdatedToast() {
 
 // Function to show the Success toast
 function showTaskDeletedToast() {
-  // Update the toast message
   liveToast.innerHTML = `
   <div class="toast-header text-bg-danger">
           <img style="width: 30px; height: auto;" src="/Images/TM_Logo_png.png" class="rounded me-2" alt="">
@@ -81,23 +79,15 @@ function showTaskDeletedToast() {
 
 // yyyy-mm-dd to dd-mm-yyyy
 function parseDate(dateString) {
-  // Split the date string into day, month, and year components
   const [year, month, day] = dateString.split("-");
-
-  // Construct a new string in 'yyyy-mm-dd' format
   const isoDateString = `${day}-${month}-${year}`;
-
   return isoDateString;
 }
 
 // dd-mm-yyyy to yyyy-mm-dd 
 function parseDateReturnsYearFirst(dateString) {
-  // Split the date string into day, month, and year components
   const [day, month, year] = dateString.split("-");
-
-  // Construct a new string in 'yyyy-mm-dd' format
   const isoDateString = `${year}-${month}-${day}`;
-
   return isoDateString;
 }
 
@@ -125,10 +115,6 @@ const getTasks = async (page) => {
     `https://task-master-backend-x8cz.onrender.com/task-master/api/task?pageNumber=${page}&pageSize=${size}`
   );
   let data = await response.json();
-  // console.log(response);
-  // console.log("HTTP_STATUS: " + response.status);
-
-  // console.log(data);
 
   // Hide loading spinner after fetching data
   document.getElementById("loadingSpinner1").style.display = "none";
@@ -161,15 +147,9 @@ const getTasks = async (page) => {
   });
 };
 
-
-
-
-
 // OPEN TASK UPDATE FORM
 const openUpdateForm = async (event) => {
-  console.log("openUpdateForm() called");
   const task_Id = event.target.dataset.id;
-  console.log("ID: " + task_Id);
 
   let response = await fetch(
     `https://task-master-backend-x8cz.onrender.com/task-master/api/task/${task_Id}`
@@ -245,7 +225,6 @@ const openDeleteWarning = async (event) => {
     `https://task-master-backend-x8cz.onrender.com/task-master/api/task/${task_Id}`
   );
   let data = await response.json();
-  console.log(data.taskId);
   const { taskId, taskTitle, employeeId } = data;
   modalFirstName2.innerHTML = `
       <div class="alert alert-danger" role="alert">
@@ -265,8 +244,6 @@ const updateTask = async () => {
   let taskDescription = document.getElementById("task_description").value;
   let taskStatus = document.getElementById("task_status").value;
   let taskDueDate = document.getElementById("task_due_date").value;
-
-  console.log("Date: " + parseDate(taskDueDate));
 
   let response = await fetch(
     `https://task-master-backend-x8cz.onrender.com/task-master/api/task/${taskId}`,
@@ -295,7 +272,6 @@ const updateTask = async () => {
 // DELETE TASK FUNCTION
 const deleteTask = async () => {
   const taskId = document.getElementById("task_id").value;
-  console.log("ID: " + taskId);
 
   let response = await fetch(
     `https://task-master-backend-x8cz.onrender.com/task-master/api/task/${taskId}`,
@@ -307,15 +283,6 @@ const deleteTask = async () => {
   if(response.status == 204){
     tasktitleToast = taskId;
   }
-
-  // if (response.ok) {
-  //     console.log("Task deleted successfully!");
-  //     event.target.closest('tr').remove();
-  // }
-  // else {
-  //     console.log("NOT DELETED");
-  //     console.log(response.status);
-  // }
 };
 
 submitUpdated.addEventListener("click", async function () {
@@ -324,8 +291,6 @@ submitUpdated.addEventListener("click", async function () {
   contentIterate.innerHTML = "";
   await getTasks(page);
   showTaskUpdatedToast();
-  // window.location.href = "../Html/DisplayTasks.html";
-  // console.log('clicked saved changes..');
 });
 
 submitDeleted.addEventListener("click", async function () {
@@ -334,6 +299,4 @@ submitDeleted.addEventListener("click", async function () {
   contentIterate.innerHTML = "";
   await getTasks(page);
   showTaskDeletedToast();
-  // window.location.href = "../Html/DisplayTasks.html";
-  //   console.log("clicked saved changes..");
 });

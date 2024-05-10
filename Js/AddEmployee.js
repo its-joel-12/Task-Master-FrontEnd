@@ -1,5 +1,4 @@
 const addEmp = document.getElementById("addEmp");
-// const liveToast = document.getElementById("liveToast");
 const modalFirstName = document.getElementById("modalFirstName");
 const submit = document.getElementById("submit");
 
@@ -16,35 +15,30 @@ var modal1 = new bootstrap.Modal(document.getElementById('exampleModal'));
 
 // Function to show the alert toast
 function showEmployeeAlertToast() {
-  // Update the toast message
   liveToast.innerHTML = `
   <div class="toast-header text-bg-danger">
-          <img style="width: 30px; height: auto;" src="/Images/TM_Logo_BlueT.png" class="rounded me-2" alt="">
-          <strong class="me-auto">ALERT! ${httpCode} ${httpStatus}</strong>
-          <!-- <small>11 mins ago</small> -->
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-          <p>${message}</p>
-        </div>
+    <img style="width: 30px; height: auto;" src="/Images/TM_Logo_BlueT.png" class="rounded me-2" alt="">
+    <strong class="me-auto">ALERT! ${httpCode} ${httpStatus}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body">
+    <p>${message}</p>
+  </div>
   `;
   errorToast.show();
 }
 
-
 // Function to show the Success toast
 function showEmployeeSuccessToast() {
-  // Update the toast message
   liveToast.innerHTML = `
   <div class="toast-header text-bg-success">
-          <img style="width: 30px; height: auto;" src="/Images/TM_Logo_png.png" class="rounded me-2" alt="">
-          <strong class="me-auto">Employee Added</strong>
-          
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-          <p>Added <strong class="me-auto">${empNameToast} </strong>Succesfully👍</p>
-        </div>
+    <img style="width: 30px; height: auto;" src="/Images/TM_Logo_png.png" class="rounded me-2" alt="">
+    <strong class="me-auto">Employee Added</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body">
+    <p>Added <strong class="me-auto">${empNameToast} </strong>Succesfully👍</p>
+  </div>
   `;
   errorToast.show();
 }
@@ -80,8 +74,6 @@ const saveEmployee = async () => {
   let employeeEmail = document.getElementById("email").value;
   let employeeDesignation = document.getElementById("designation").value;
 
-  // console.log("saveEmployee called!");
-
   let response = await fetch(
     "https://task-master-backend-x8cz.onrender.com/task-master/api/employee",
     {
@@ -105,8 +97,7 @@ const saveEmployee = async () => {
     empNameToast = data.empName;
   } else {
     isEmployeeSaved = false;
-
-
+    
     httpCode = data.httpCode;
     httpStatus = data.httpStatus;
     message = data.message;
@@ -116,14 +107,14 @@ const saveEmployee = async () => {
 addEmp.addEventListener("click", openAddForm);
 
 submit.addEventListener("click", async function () {
-    await saveEmployee();
-    
-    if (!isEmployeeSaved) {
-      showEmployeeAlertToast();
-    } else {
-      showEmployeeSuccessToast();    
-      modal1.hide();
-    }
-  });
-  
+  await saveEmployee();
+
+  if (!isEmployeeSaved) {
+    showEmployeeAlertToast();
+  } else {
+    showEmployeeSuccessToast();
+    modal1.hide();
+  }
+});
+
 

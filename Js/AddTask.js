@@ -16,7 +16,6 @@ var modal = new bootstrap.Modal(document.getElementById('exampleModal2'));
 
 // Function to show the alert toast
 function showAlertToast() {
-  // Update the toast message
   liveToast.innerHTML = `
   <div class="toast-header text-bg-danger">
           <img style="width: 30px; height: auto;" src="/Images/TM_Logo_BlueT.png" class="rounded me-2" alt="">
@@ -31,10 +30,8 @@ function showAlertToast() {
   errorToast.show();
 }
 
-
 // Function to show the Success toast
 function showSuccessToast() {
-  // Update the toast message
   liveToast.innerHTML = `
   <div class="toast-header text-bg-success">
           <img style="width: 30px; height: auto;" src="/Images/TM_Logo_png.png" class="rounded me-2" alt="">
@@ -93,12 +90,8 @@ function openAddForm() {
 
 // Date convertion function
 function parseDate(dateString) {
-  // Split the date string into day, month, and year components
   const [year, month, day] = dateString.split("-");
-
-  // Construct a new string in 'yyyy-mm-dd' format
   const isoDateString = `${day}-${month}-${year}`;
-
   return isoDateString;
 }
 
@@ -109,8 +102,6 @@ const saveTask = async () => {
   let taskStatus = document.getElementById("task_status").value;
   let taskDueDate = document.getElementById("task_due_date").value;
   let empId = document.getElementById("emp_id").value;
-
-  // console.log('date: ' + taskDueDate);
 
   let response = await fetch(
     `https://task-master-backend-x8cz.onrender.com/task-master/api/task/${empId}`,
@@ -130,7 +121,6 @@ const saveTask = async () => {
   );
 
   let data = await response.json();
-  // console.log(response);
 
   if (response.status == 201) {
     isTaskSaved = true;
@@ -138,16 +128,9 @@ const saveTask = async () => {
   } else {
     isTaskSaved = false;
 
-
     httpCode = data.httpCode;
     httpStatus = data.httpStatus;
     message = data.message;
-    // console.log("response:");
-    // console.log("response-status:" + response.status);
-    // console.log("httpCode: " + data.httpCode);
-    // console.log("httpStatus: " + data.httpStatus);
-    // console.log("message: " + data.message);
-    // console.log("description: " + data.description);
   }
 };
 
