@@ -1,6 +1,12 @@
 var page = 0;
 var size = 10; //items per page
 var totalPages = 0;
+var tasktitleToast;
+
+const liveToast = document.getElementById("liveToast");
+var errorToast = new bootstrap.Toast(liveToast);
+var modal = new bootstrap.Modal(document.getElementById('exampleModal1'));
+var modal2 = new bootstrap.Modal(document.getElementById('exampleModal2'));
 
 document.addEventListener("DOMContentLoaded", function () {
   getTasks(page);
@@ -11,28 +17,6 @@ const nextPage = document.getElementById("nextPage");
 const previousPage = document.getElementById("previousPage");
 const submitUpdated = document.querySelector(".submitUpdated");
 const submitDeleted = document.querySelector(".submitDeleted");
-
-// yyyy-mm-dd to dd-mm-yyyy
-function parseDate(dateString) {
-  // Split the date string into day, month, and year components
-  const [year, month, day] = dateString.split("-");
-
-  // Construct a new string in 'yyyy-mm-dd' format
-  const isoDateString = `${day}-${month}-${year}`;
-
-  return isoDateString;
-}
-
-// dd-mm-yyyy to yyyy-mm-dd 
-function parseDateReturnsYearFirst(dateString) {
-  // Split the date string into day, month, and year components
-  const [day, month, year] = dateString.split("-");
-
-  // Construct a new string in 'yyyy-mm-dd' format
-  const isoDateString = `${year}-${month}-${day}`;
-
-  return isoDateString;
-}
 
 nextPage.addEventListener("click", function (e) {
   page++;
@@ -59,6 +43,63 @@ previousPage.addEventListener("click", function (e) {
   contentIterate.innerHTML = "";
   getTasks(page);
 });
+
+// Function to show the Success toast
+function showTaskUpdatedToast() {
+  // Update the toast message
+  liveToast.innerHTML = `
+  <div class="toast-header text-bg-success">
+          <img style="width: 30px; height: auto;" src="/Images/TM_Logo_png.png" class="rounded me-2" alt="">
+          <strong class="me-auto">Task Updated</strong>
+          
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          <p>Updated <strong class="me-auto">${tasktitleToast} </strong>Succesfully👍</p>
+        </div>
+  `;
+  errorToast.show();
+}
+
+// Function to show the Success toast
+function showTaskDeletedToast() {
+  // Update the toast message
+  liveToast.innerHTML = `
+  <div class="toast-header text-bg-danger">
+          <img style="width: 30px; height: auto;" src="/Images/TM_Logo_png.png" class="rounded me-2" alt="">
+          <strong class="me-auto">Task Deleted</strong>
+          
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          <p>Deleted TaskID: <strong class="me-auto">${tasktitleToast} </strong>Succesfully😢</p>
+          </div>
+          `;
+  errorToast.show();
+}
+
+
+// yyyy-mm-dd to dd-mm-yyyy
+function parseDate(dateString) {
+  // Split the date string into day, month, and year components
+  const [year, month, day] = dateString.split("-");
+
+  // Construct a new string in 'yyyy-mm-dd' format
+  const isoDateString = `${day}-${month}-${year}`;
+
+  return isoDateString;
+}
+
+// dd-mm-yyyy to yyyy-mm-dd 
+function parseDateReturnsYearFirst(dateString) {
+  // Split the date string into day, month, and year components
+  const [day, month, year] = dateString.split("-");
+
+  // Construct a new string in 'yyyy-mm-dd' format
+  const isoDateString = `${year}-${month}-${day}`;
+
+  return isoDateString;
+}
 
 // GET ALL TASKS FUNCTION
 const getTasks = async (page) => {
@@ -119,6 +160,10 @@ const getTasks = async (page) => {
     });
   });
 };
+
+
+
+
 
 // OPEN TASK UPDATE FORM
 const openUpdateForm = async (event) => {
@@ -239,6 +284,12 @@ const updateTask = async () => {
       }),
     }
   );
+
+  if(response.status == 200){
+    let data = await response.json();
+    tasktitleToast = data.taskTitle;
+  }
+
 };
 
 // DELETE TASK FUNCTION
@@ -253,6 +304,10 @@ const deleteTask = async () => {
     }
   );
 
+  if(response.status == 204){
+    tasktitleToast = taskId;
+  }
+
   // if (response.ok) {
   //     console.log("Task deleted successfully!");
   //     event.target.closest('tr').remove();
@@ -265,12 +320,20 @@ const deleteTask = async () => {
 
 submitUpdated.addEventListener("click", async function () {
   await updateTask();
-  window.location.href = "../Html/DisplayTasks.html";
+  modal.hide();
+  contentIterate.innerHTML = "";
+  await getTasks(page);
+  showTaskUpdatedToast();
+  // window.location.href = "../Html/DisplayTasks.html";
   // console.log('clicked saved changes..');
 });
 
 submitDeleted.addEventListener("click", async function () {
   await deleteTask();
-  window.location.href = "../Html/DisplayTasks.html";
+  modal2.hide();
+  contentIterate.innerHTML = "";
+  await getTasks(page);
+  showTaskDeletedToast();
+  // window.location.href = "../Html/DisplayTasks.html";
   //   console.log("clicked saved changes..");
 });
